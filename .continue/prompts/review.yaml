@@ -4,5 +4,6 @@ schema: v1
 prompts:
   - name: review
     description: review
-    prompt: .continue/rules/cpp-review-workflow.md にもとづいて、今開いているファイルのレビュー修正とコミットを行ってください。
+    prompt: .continue/rules/cpp-review-workflow.md にもとづいて、今開いているファイルのレビュー修正とコミットを行ってください。 cpp-review-workflow.md のworkflowを１手ずつ順に実行するようにしてください。
+
      

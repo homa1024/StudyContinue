@@ -13,10 +13,10 @@ examples:
 workflow:
   1. 事前準備
      - .continue/rules/ ディレクトリの存在確認
-     - 必要なルールファイルの確認：
-       * review-rule.md: レビュー基準
-       * commit-rule.md: コミットメッセージ規則
-       * cpp-review-workflow.md: 本ワークフローファイル
+     - 必要なルールファイルの存在確認：
+       * `.continue/rules/review-rule.md` : レビュー基準
+       * `.continue/rules/commit-rule.md` : コミットメッセージ規則
+       * `.continue/rules/cpp-review-workflow.md` : 本ワークフローファイル
      - ルールファイルが見つからない場合は、その旨を報告し作業を中断
 
   2. レビュー準備
@@ -31,7 +31,7 @@ workflow:
        ```
 
   3. レビュー実施
-     - review-rule.mdの確認項目に基づくレビュー
+     - `.continue/rules/review-rule.md` の確認項目に基づくレビュー
      - 修正提案の作成
      - 各提案にレビュールール項目番号を明記
      - レビュールール以外の改善提案は行わない
@@ -45,7 +45,7 @@ workflow:
        ```
 
   5. コミット実行
-     - commit-rule.mdに基づくコミットメッセージの作成
+     - `.continue/rules/commit-rule.md` に基づくコミットメッセージの作成
      - コミットの実行
        ```bash
        git add .           # 変更をステージング
@@ -57,7 +57,10 @@ workflow:
        ```
 
 error_handling:
-  - ルールファイルが見つからない場合：作業を中断し、管理者に連絡
+  - ルールファイルが見つからない場合：
+    * file_glob_searchを使用する場合は、隠しファイル/ディレクトリも検索対象とするパターン（例：`"**/.continue/**/*rule*.md"`）を使用
+    * 検索に失敗した場合は、`ls -a`コマンドで.continueディレクトリの存在を確認
+    * それでも見つからない場合は作業を中断し、管理者に連絡
   - 差分が確認できない場合：ブランチ名の確認を要求
   - レビュールール違反の修正提案があった場合：作業を中断し、レビューからやり直し
 
