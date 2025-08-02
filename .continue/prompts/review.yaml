@@ -4,5 +4,5 @@ schema: v1
 prompts:
   - name: review
     description: review
-    prompt: .continue/rules/review-rule.md にもとづいて、今開いているファイルのレビューを行ってください。
+    prompt: .continue/rules/cpp-review-workflow.md にもとづいて、今開いているファイルのレビュー修正とコミットを行ってください。
      
