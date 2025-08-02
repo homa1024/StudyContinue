@@ -1,0 +1,92 @@
+{
+  "name": "studycontainer-devcontainer",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "TEST1": "Test1 from devcontainer.json"
+    },
+    "image": "studycontainer-img:latest"
+  },
+  "features": {
+    // "ghcr.io/nils-geistmann/devcontainers-features/zsh:0": { },
+    "ghcr.io/devcontainers-extra/features/zsh-plugins:0": {"username": "user" },
+    "ghcr.io/devcontainers/features/python:1": {},
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+  },
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
+  "mounts": [
+    "source=${localWorkspaceFolder}/.devcontainer/init-firewall.sh,target=/home/user/init-firewall.sh,type=bind",
+    // 読み取り専用マウントの例（必要に応じて追加）
+    // "source=/etc/ssl/certs,target=/etc/ssl/certs,type=bind,readonly"
+  ],
+  "remoteEnv":{
+    "HOGE": "hogehogehoge"
+  },
+  // セキュリティ強化: 非特権ユーザーで実行
+  "remoteUser": "root",
+  "runArgs": [
+    // ネットワーク権限を制限（セキュリティ強化のため一時的に無効化）
+    "--cap-add=NET_ADMIN",
+    "--cap-add=NET_RAW",
+    
+    // セキュリティプロファイルの適用
+    "--security-opt", "seccomp=unconfined",  // 開発環境用。本番環境では適切なプロファイルを指定
+    "--security-opt", "apparmor=unconfined",  // 開発環境用。本番環境では適切なプロファイルを指定
+    
+    // その他のセキュリティ強化
+    // "--cap-drop=ALL",  // すべての権限を一旦削除
+    // "--cap-add=CHOWN",  // 必要な権限のみ追加
+    // "--cap-add=SETUID",
+    // "--cap-add=SETGID",
+    
+    // ネットワーク隔離
+    "--network=bridge",  // デフォルトのbridgeネットワークを明示的に指定
+    
+    // DNSセキュリティ設定
+    "--dns=8.8.8.8",  // Google Public DNS
+    "--dns=8.8.4.4"   // Google Public DNS (セカンダリ)
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "bash",
+            "icon": "terminal-bash"
+          },
+          "zsh": {
+            "path": "zsh"
+          }
+        }
+      }
+    }
+  },
+  "postCreateCommand": "/home/user/init-firewall.sh",
+
+  // ポート管理: 必要なポートのみを明示的に公開
+  "forwardPorts": [],  // 開発サーバー等で必要なポートのみ追加
+  "portsAttributes": {
+    // "8000": {
+    //   "label": "Development Server",
+    //   "onAutoForward": "notify"
+    // }
+  }
+}
+
+    // # entrypoint: /bin/sh
+    // # command: /bin/sh
+    // # ports:
+    // # - "8000:8000"
