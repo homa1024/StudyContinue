@@ -53,7 +53,8 @@
       "extensions": [
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "eamodio.gitlens"
+        "eamodio.gitlens",
+        "continue.continue"
       ],
       "settings": {
         "editor.formatOnSave": true,
@@ -74,7 +75,7 @@
       }
     }
   },
-  "postCreateCommand": "/home/user/init-firewall.sh",
+  // "postCreateCommand": "/home/user/init-firewall.sh",
 
   // ポート管理: 必要なポートのみを明示的に公開
   "forwardPorts": [],  // 開発サーバー等で必要なポートのみ追加
