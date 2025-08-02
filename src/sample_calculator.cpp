@@ -7,9 +7,11 @@ class Calculator {
 private:
     double result;
     std::vector<double> history;
+    std::string lastOperation;
+    double memoryValue;
 
 public:
-    Calculator() : result(0.0) {}
+    Calculator() : result(0.0), lastOperation(""), memoryValue(0.0) {}
 
     double add(double a, double b) {
         result = a + b;
@@ -63,6 +65,40 @@ public:
     void clearHistory() {
         history.clear();
     }
+
+    double modulo(double a, double b) {
+        if (b == 0) {
+            std::cerr << "Error: Modulo by zero!" << std::endl;
+            return 0;
+        }
+        result = std::fmod(a, b);
+        history.push_back(result);
+        lastOperation = "modulo";
+        return result;
+    }
+
+    std::string getLastOperation() {
+        return lastOperation;
+    }
+
+    void storeInMemory() {
+        memoryValue = result;
+    }
+
+    double recallFromMemory() {
+        return memoryValue;
+    }
+
+    double sqrt(double value) {
+        if (value < 0) {
+            std::cerr << "Error: Square root of negative number!" << std::endl;
+            return 0;
+        }
+        result = std::sqrt(value);
+        history.push_back(result);
+        lastOperation = "sqrt";
+        return result;
+    }
 };
 
 double calculateCircleArea(double radius) {
@@ -98,6 +134,26 @@ bool isPrime(int number) {
     return true;
 }
 
+double calculateAverage(std::vector<double> numbers) {
+    if (numbers.empty()) {
+        return 0;
+    }
+    
+    double sum = 0;
+    for (int i = 0; i < numbers.size(); i++) {
+        sum += numbers[i];
+    }
+    return sum / numbers.size();
+}
+
+double celsiusToFahrenheit(double celsius) {
+    return celsius * 9.0 / 5.0 + 32.0;
+}
+
+double fahrenheitToCelsius(double fahrenheit) {
+    return (fahrenheit - 32.0) * 5.0 / 9.0;
+}
+
 int main() {
     Calculator calc;
     
@@ -106,6 +162,16 @@ int main() {
     std::cout << "Multiplication: " << calc.multiply(10, 5) << std::endl;
     std::cout << "Division: " << calc.divide(10, 5) << std::endl;
     std::cout << "Power: " << calc.power(2, 8) << std::endl;
+    std::cout << "Modulo: " << calc.modulo(10, 3) << std::endl;
+    std::cout << "Square root: " << calc.sqrt(25) << std::endl;
+    
+    std::cout << "Last operation: " << calc.getLastOperation() << std::endl;
+    
+    // メモリ機能のテスト
+    calc.storeInMemory();
+    std::cout << "Stored in memory: " << calc.getResult() << std::endl;
+    calc.add(100, 200);
+    std::cout << "Memory recall: " << calc.recallFromMemory() << std::endl;
     
     calc.printHistory();
     
@@ -119,6 +185,15 @@ int main() {
     
     int primeCandidate = 17;
     std::cout << primeCandidate << " is " << (isPrime(primeCandidate) ? "prime" : "not prime") << std::endl;
+    
+    // 平均値計算のテスト
+    std::vector<double> numbers = {10.5, 20.3, 30.1, 40.7, 50.2};
+    std::cout << "\nAverage: " << calculateAverage(numbers) << std::endl;
+    
+    // 温度変換のテスト
+    double temp = 25.0;
+    std::cout << "\n" << temp << "°C = " << celsiusToFahrenheit(temp) << "°F" << std::endl;
+    std::cout << temp << "°F = " << fahrenheitToCelsius(temp) << "°C" << std::endl;
     
     return 0;
 }
