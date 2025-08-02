@@ -25,10 +25,6 @@ workflow:
        git branch      # 現在のブランチ確認
        git branch -r   # リモートブランチの確認
        ```
-     - 差分の取得
-       ```bash
-       git diff <branch_name>   # 特定のブランチとの差分を確認
-       ```
 
   3. レビュー実施
      - `.continue/rules/review-rule.md` の確認項目に基づくレビュー
