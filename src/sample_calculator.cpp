@@ -54,19 +54,19 @@ public:
     void printHistory() {
         std::cout << "Calculation history:" << std::endl;
         for (int i = 0; i < history.size(); i++) {
-            std::cout << "  " << i << ": " << history[i] << std::endl;
+            std::cout << "  " << i << ": " << history.at(i) << std::endl;
         }
     }
 
     double getHistoryItem(int index) {
-        return history[index];
+        return history.at(index);
     }
 
     void clearHistory() {
         history.clear();
     }
 
-    double modulo(double a, double b) {
+    double modulo(const double a, const double b) {
         if (b == 0) {
             std::cerr << "Error: Modulo by zero!" << std::endl;
             return 0;
@@ -77,7 +77,7 @@ public:
         return result;
     }
 
-    std::string getLastOperation() {
+    std::string getLastOperation() const {
         return lastOperation;
     }
 
@@ -89,7 +89,7 @@ public:
         return memoryValue;
     }
 
-    double sqrt(double value) {
+    double sqrt(const double value) {
         if (value < 0) {
             std::cerr << "Error: Square root of negative number!" << std::endl;
             return 0;
@@ -134,7 +134,7 @@ bool isPrime(int number) {
     return true;
 }
 
-double calculateAverage(std::vector<double> numbers) {
+double calculateAverage(const std::vector<double>& numbers) {
     if (numbers.empty()) {
         return 0;
     }
@@ -146,12 +146,15 @@ double calculateAverage(std::vector<double> numbers) {
     return sum / numbers.size();
 }
 
-double celsiusToFahrenheit(double celsius) {
-    return celsius * 9.0 / 5.0 + 32.0;
+constexpr double FAHRENHEIT_SCALE = 9.0 / 5.0;
+constexpr double FAHRENHEIT_OFFSET = 32.0;
+
+double celsiusToFahrenheit(const double celsius) {
+    return celsius * FAHRENHEIT_SCALE + FAHRENHEIT_OFFSET;
 }
 
-double fahrenheitToCelsius(double fahrenheit) {
-    return (fahrenheit - 32.0) * 5.0 / 9.0;
+double fahrenheitToCelsius(const double fahrenheit) {
+    return (fahrenheit - FAHRENHEIT_OFFSET) / FAHRENHEIT_SCALE;
 }
 
 int main() {
